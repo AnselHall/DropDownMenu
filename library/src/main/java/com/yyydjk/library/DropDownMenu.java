@@ -2,6 +2,7 @@ package com.yyydjk.library;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -10,7 +11,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -80,23 +80,37 @@ public class DropDownMenu extends LinearLayout {
         a.recycle();
 
         //初始化tabMenuView并添加到tabMenuView
-        tabMenuView = new LinearLayout(context);
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        tabMenuView.setOrientation(HORIZONTAL);
-        tabMenuView.setBackgroundColor(menuBackgroundColor);
-        tabMenuView.setLayoutParams(params);
+//        tabMenuView = new LinearLayout(context);
+//        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpTpPx(47));
+//        tabMenuView.setOrientation(HORIZONTAL);
+//        tabMenuView.setBackgroundColor(menuBackgroundColor);
+//        tabMenuView.setLayoutParams(params);
+
+        tabMenuView = (LinearLayout) View.inflate(getContext(), R.layout.tab_menu, null);
+        final LinearLayout llTime = (LinearLayout) tabMenuView.findViewById(R.id.ll_time);
+        LinearLayout llLocation = (LinearLayout) tabMenuView.findViewById(R.id.ll_location);
+        LinearLayout llSort = (LinearLayout) tabMenuView.findViewById(R.id.ll_sort);
+        LinearLayout llMore = (LinearLayout) tabMenuView.findViewById(R.id.ll_more);
+
+        llTime.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                switchMenu(llTime);
+            }
+        });
+
         addView(tabMenuView, 0);
 
-        //为tabMenuView添加下划线
-        View underLine = new View(getContext());
-        underLine.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpTpPx(1.0f)));
-        underLine.setBackgroundColor(underlineColor);
-        addView(underLine, 1);
+//        //为tabMenuView添加下划线
+//        View underLine = new View(getContext());
+//        underLine.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpTpPx(1.0f)));
+//        underLine.setBackgroundColor(underlineColor);
+//        addView(underLine, 1);
 
         //初始化containerView并将其添加到DropDownMenu
         containerView = new FrameLayout(context);
         containerView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-        addView(containerView, 2);
+        addView(containerView, 1);
 
     }
 
@@ -112,9 +126,10 @@ public class DropDownMenu extends LinearLayout {
             throw new IllegalArgumentException("params not match, tabTexts.size() should be equal popupViews.size()");
         }
 
-        for (int i = 0; i < tabTexts.size(); i++) {
-            addTab(tabTexts, i);
-        }
+//        for (int i = 0; i < tabTexts.size(); i++) {
+//            addTab(tabTexts, i);
+//        }
+
         containerView.addView(contentView, 0);
 
         maskView = new View(getContext());
@@ -145,10 +160,15 @@ public class DropDownMenu extends LinearLayout {
         tab.setSingleLine();
         tab.setEllipsize(TextUtils.TruncateAt.END);
         tab.setGravity(Gravity.CENTER);
-        tab.setTextSize(TypedValue.COMPLEX_UNIT_PX,menuTextSize);
-        tab.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
+        tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, menuTextSize);
+        tab.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
         tab.setTextColor(textUnselectedColor);
-        tab.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(menuUnselectedIcon), null);
+
+        Drawable drawable = getResources().getDrawable(menuUnselectedIcon);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        tab.setCompoundDrawables(null, null, drawable, null);
+        tab.setCompoundDrawablePadding(dpTpPx(2));
+
         tab.setText(tabTexts.get(i));
         tab.setPadding(dpTpPx(5), dpTpPx(12), dpTpPx(5), dpTpPx(12));
         //添加点击事件
@@ -162,7 +182,10 @@ public class DropDownMenu extends LinearLayout {
         //添加分割线
         if (i < tabTexts.size() - 1) {
             View view = new View(getContext());
-            view.setLayoutParams(new LayoutParams(dpTpPx(0.5f), ViewGroup.LayoutParams.MATCH_PARENT));
+            LayoutParams params = new LayoutParams(dpTpPx(0.5f), dpTpPx(26));
+            params.topMargin = dpTpPx(21/2);
+            view.setLayoutParams(params);
+
             view.setBackgroundColor(dividerColor);
             tabMenuView.addView(view);
         }
@@ -194,9 +217,9 @@ public class DropDownMenu extends LinearLayout {
             ((TextView) tabMenuView.getChildAt(current_tab_position)).setCompoundDrawablesWithIntrinsicBounds(null, null,
                     getResources().getDrawable(menuUnselectedIcon), null);
             popupMenuViews.setVisibility(View.GONE);
-            popupMenuViews.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_menu_out));
+//            popupMenuViews.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_menu_out));
             maskView.setVisibility(GONE);
-            maskView.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_mask_out));
+//            maskView.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_mask_out));
             current_tab_position = -1;
         }
 
@@ -217,7 +240,8 @@ public class DropDownMenu extends LinearLayout {
      * @param target
      */
     private void switchMenu(View target) {
-        System.out.println(current_tab_position);
+//        System.out.println(current_tab_position);
+
         for (int i = 0; i < tabMenuView.getChildCount(); i = i + 2) {
             if (target == tabMenuView.getChildAt(i)) {
                 if (current_tab_position == i) {
@@ -225,9 +249,9 @@ public class DropDownMenu extends LinearLayout {
                 } else {
                     if (current_tab_position == -1) {
                         popupMenuViews.setVisibility(View.VISIBLE);
-                        popupMenuViews.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_menu_in));
+//                        popupMenuViews.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_menu_in));
                         maskView.setVisibility(VISIBLE);
-                        maskView.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_mask_in));
+//                        maskView.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.dd_mask_in));
                         popupMenuViews.getChildAt(i / 2).setVisibility(View.VISIBLE);
                     } else {
                         popupMenuViews.getChildAt(i / 2).setVisibility(View.VISIBLE);

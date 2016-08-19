@@ -18,11 +18,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class MainActivity extends AppCompatActivity {
 
-    @InjectView(R.id.dropDownMenu) DropDownMenu mDropDownMenu;
+//    @InjectView(R.id.dropDownMenu)
+    DropDownMenu mDropDownMenu;
+
     private String headers[] = {"入住时间", "位置区域", "推荐排序", "更多筛选"};
 //    private String headers[] = {"城市", "年龄", "性别", "星座"};
     private List<View> popupViews = new ArrayList<>();
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDropDownMenu = (DropDownMenu) findViewById(R.id.dropDownMenu);
+
         ButterKnife.inject(this);
         initView();
     }

@@ -1,16 +1,28 @@
-<com.yyydjk.library.DropDownMenu
-    android:id="@+id/dropDownMenu"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:ddmenuTextSize="13sp"
-    app:ddtextUnselectedColor="@color/drop_down_unselected"
-    app:ddtextSelectedColor="@color/drop_down_selected"
-    app:dddividerColor="@color/gray"
-    app:ddunderlineColor="@color/gray"
-    app:ddmenuSelectedIcon="@mipmap/arrow_up"
-    app:ddmaskColor="@color/mask_color"
-    app:ddmenuBackgroundColor="@color/white"
-    app:ddmenuUnselectedIcon="@mipmap/arrow_down"
-  />
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_hello_world"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/gray"
+        android:text="Hello World"/>
+
+    <com.yyydjk.library.DropDownMenu xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/dropDownMenu"
+        android:layout_below="@id/tv_hello_world"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:dddividerColor="#3A3A48"
+        app:ddmaskColor="@color/mask_color"
+        app:ddmenuBackgroundColor="#09091A"
+        app:ddmenuSelectedIcon="@mipmap/arrow_up"
+        app:ddmenuTextSize="14sp"
+        app:ddmenuUnselectedIcon="@mipmap/arrow_down"
+        app:ddtextSelectedColor="#28A4B0"
+        app:ddtextUnselectedColor="#F2F2F4"
+        app:ddunderlineColor="@color/gray" />
+</RelativeLayout>
